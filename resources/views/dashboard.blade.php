@@ -4,14 +4,14 @@
 <div class="min-h-screen bg-gray-100 py-10">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- Profil Header -->
+        
         <div class="flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-lg shadow mb-6">
             <div class="flex items-center space-x-4">
               
                 <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-300">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" alt="avatar" class="w-full h-full object-cover">
                 </div>
-                <!-- Info -->
+                
                 <div>
                     <h3 class="text-2xl font-bold text-gray-800">{{ Auth::user()->name }}</h3>
                     <p class="text-gray-600 text-sm">📤 Total Gambar: {{ $images->count() }}</p>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <!-- Galeri -->
+       
         <div class="bg-white shadow-md rounded-lg p-6">
             <h3 class="text-xl font-semibold text-gray-800 mb-4">📸 Galeri Kamu</h3>
 
@@ -51,7 +51,7 @@
                                     @endif
                                 </p>
 
-                                <!-- Like info -->
+                               
                                 @if ($image->likes->count())
                                     <p class="text-xs mt-1 text-gray-500">
                                         ❤️ Disukai oleh: 
@@ -61,7 +61,7 @@
                                     </p>
                                 @endif
 
-                                <!-- Delete -->
+                               
                                 <form action="{{ route('home.destroy', $image->id) }}" method="POST" class="mt-3">
                                     @csrf
                                     @method('DELETE')
