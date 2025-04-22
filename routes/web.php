@@ -48,10 +48,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     Route::get('/pending-images', [AdminController::class, 'pendingImages'])->name('pending.images');
     Route::post('/approve-image/{id}', [AdminController::class, 'approve'])->name('approve.image');
+    Route::post('/images/{id}/reject', [AdminController::class, 'reject'])->name('images.reject');
+
+
 });
 
 Route::post('/comment/{comment}/like', [CommentLikeController::class, 'toggle'])->name('comment.like');
 Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+Route::put('/profile/update',[ProfileController::class, 'update'])->name('profile.update');
 
 route::get('/kontak', function () {
     $users = User::latest()->get(); 

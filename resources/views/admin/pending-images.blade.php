@@ -40,6 +40,11 @@
                                     Setujui
                                 </button>
                             </form>
+                            </form>
+                            <form action="{{ route('admin.images.reject', $image->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menolak gambar ini?')">
+                            @csrf
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Tolak</button>
+                        </form>
                         </td>
                     </tr>
                 @endforeach

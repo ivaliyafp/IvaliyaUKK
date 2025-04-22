@@ -32,7 +32,6 @@
             </a>
         </div>
     @endauth
-
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
     @forelse ($images as $image)
     <div class="max-w-[100px] bg-white rounded-lg shadow overflow-hidden">
@@ -106,7 +105,7 @@
                     <form action="{{ route('comment.destroy', $comment->id) }}" method="POST" class="absolute top-0 right-0">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin ingin menghapus komentar ini?')" class="text-red-500 text-xs hover:underline hidden group-hover:inline">
+                        <button type="submit" onclick="return confirm('Yakin ingin menghapus komentar ini?')" class="text-red-500 text-xs hover:underline">
                             ❌
                         </button>
                     </form>

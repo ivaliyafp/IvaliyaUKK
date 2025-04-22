@@ -21,9 +21,9 @@
                 @auth
                     <span class="text-sm text-gray-600">Hai, {{ Auth::user()->name }} ✨</span>
                     @if (Auth::user()->is_admin)
-                        <a href="{{ route('admin.dashboard') }}" class="text-sm text-gray-700 hover:text-blue-600">Dashboard</a>
+                        <a href="{{ route('admin.dashboard') }}" class="text-sm text-gray-700 hover:text-blue-600">Profil</a>
                     @else
-                        <a href="{{ route('dashboard') }}" class="text-sm text-gray-700 hover:text-blue-600">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="text-sm text-gray-700 hover:text-blue-600">Profil</a>
                     @endif
                     <a href="{{ route('home.index') }}" class="text-sm text-gray-700 hover:text-blue-600">Galeri</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">

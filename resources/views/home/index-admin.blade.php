@@ -22,11 +22,6 @@
     @endif
 
     @auth
-    <div class="mb-6">
-        <a href="{{ route('home.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">
-            Upload Gambar
-        </a>
-    </div>
     @endauth
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
     @forelse ($images as $image)
@@ -99,7 +94,7 @@
                     <form action="{{ route('comment.destroy', $comment->id) }}" method="POST" class="absolute top-0 right-0">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin ingin menghapus komentar ini?')" class="text-red-500 text-xs hover:underline hidden group-hover:inline">
+                        <button type="submit" onclick="return confirm('Yakin ingin menghapus komentar ini?')" class="text-red-500 text-xs hover:underline">
                             ❌
                         </button>
                     </form>

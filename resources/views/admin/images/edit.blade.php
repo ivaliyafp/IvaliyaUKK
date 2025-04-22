@@ -28,10 +28,6 @@
                 @endforeach
             </select>
         </div>
-        <div class="mb-4">
-            <label for="description" class="form-label">Deskripsi</label>
-            <textarea name="description" class="form-control" rows="3">{{ $image->description }}</textarea>
-        </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('admin.images.index') }}" class="btn btn-secondary">Batal</a>
     </form>

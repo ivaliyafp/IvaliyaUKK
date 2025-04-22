@@ -20,7 +20,7 @@
             <div class="space-x-6 flex items-center">
                 @auth
                     <span class="text-sm text-gray-600">Hai, {{ Auth::user()->name }} ✨</span>
-                    <a href="{{ route('admin.dashboard') }}" class="text-sm hover:text-blue-600">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="text-sm hover:text-blue-600">Profil</a>
 
                     <a href="{{ route('home.indexadmin') }}" class="text-sm hover:text-blue-600">Galeri</a>
 

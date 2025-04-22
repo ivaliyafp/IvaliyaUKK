@@ -7,9 +7,19 @@
         
         <div class="flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-lg shadow mb-6">
             <div class="flex items-center space-x-4">
-              
+              <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+                @csrf
+                @method('PUT')
+                
+                <input type="file" name="profile_image" accept="image/*" class="mb-2">
+                <button type="+" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm">Ganti Foto</button>
+              </form>
                 <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-300">
+                    @if (Auth::user()->profile_image)
+                    <img src="{{ asset(Auth::user()->profile_image) }}"  class="w-full h-full object-cover">
+                    @else
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" alt="avatar" class="w-full h-full object-cover">
+                    @endif
                 </div>
                 
                 <div>
@@ -36,48 +46,83 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-4">📸 Galeri Kamu</h3>
 
             @if ($images->count())
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    @foreach ($images as $image)
-                        <div class="bg-white border rounded-lg overflow-hidden shadow hover:shadow-md transition">
-                            <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}" class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="text-md font-semibold text-gray-700 truncate">{{ $image->title }}</h4>
-                                <p class="text-xs mt-1 text-gray-500">
-                                    Status: 
-                                    @if ($image->is_active)
-                                        <span class="text-green-600 font-semibold">Disetujui</span>
-                                    @else
-                                        <span class="text-yellow-600 font-semibold">Menunggu</span>
-                                    @endif
-                                </p>
-
-                               
-                                @if ($image->likes->count())
-                                    <p class="text-xs mt-1 text-gray-500">
-                                        ❤️ Disukai oleh: 
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        @foreach ($images as $image)
+            <div class="bg-white border rounded-lg overflow-hidden shadow hover:shadow-md transition">
+                <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}" class="w-full h-48 object-cover">
+                <div class="p-3">
+                    <h4 class="text-md font-semibold text-gray-700 truncate">{{ $image->title }}</h4>
+                    <p class="text-xs mt-1 text-gray-500">
+                        Status: 
+                        @if ($image->is_active == 1)
+                            <span class="text-green-600 font-semibold">Disetujui</span>
+                        @elseif ($image->is_active == 2)
+                            <span class="text-red-600 font-semibold">Ditolak</span>
+                        @else
+                            <span class="text-yellow-600 font-semibold">Menunggu</span>
+                        @endif
+                    </p>
+                    <p class="text-xs mt-1 text-gray-500">
+                        ❤️ {{ $image->likes->count() }} Like • 
+                        <a href="javascript:void(0);" class="text-blue-500 hover:underline"
+                           onclick="toggleComments({{ $image->id }})">
+                            💬 {{ $image->comments->count() }} Komentar
+                        </a>
+                    </p>
+                    @if ($image->likes->count())
+                                    <div class="text-xs text-gray-400 mt-1">
+                                        Disukai oleh:
                                         @foreach ($image->likes as $like)
-                                            <span class="text-blue-600">{{ $like->user->name }}</span>@if (!$loop->last), @endif
+                                            {{ $like->user->name }}{{ !$loop->last ? ',' : '' }}
                                         @endforeach
-                                    </p>
+                                    </div>
                                 @endif
 
-                               
-                                <form action="{{ route('home.destroy', $image->id) }}" method="POST" class="mt-3">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Yakin mau hapus gambar ini?')"
-                                            class="w-full bg-red-500 text-white py-1 rounded hover:bg-red-600 text-sm">
-                                        🗑️ Hapus
-                                    </button>
-                                </form>
+
+                    <div id="comments-{{ $image->id }}" class="hidden mt-2">
+                        @foreach ($image->comments as $comment)
+                            <div class="text-sm text-gray-700 border-t pt-2 mt-2">
+                                <strong>{{ $comment->user->name ?? 'Anonim' }}:</strong> {{ $comment->content }}
+                                <div class="flex justify-between items-center text-xs text-gray-400 mt-1">
+                                    <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                    
+                                    <form action="{{ route('comment.like', $comment->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="text-pink-500 hover:underline">
+                                            💖 {{ $comment->likes->count() }}
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
+                    <form action="{{ route('home.destroy', $image->id) }}" method="POST" class="mt-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Yakin mau hapus gambar ini?')"
+                                class="w-full bg-red-500 text-white py-1 rounded hover:bg-red-600 text-sm">
+                            🗑️ Hapus
+                        </button>
+                    </form>
                 </div>
-            @else
-                <p class="text-gray-600 text-sm text-center">Kamu belum mengupload gambar apapun 😢</p>
-            @endif
+            </div>
+        @endforeach
+    </div>
+@else
+    <p class="text-gray-600 text-sm text-center">Kamu belum mengupload gambar apapun 😢</p>
+@endif
+
         </div>
+        <script>
+    function toggleComments(imageId) {
+        const el = document.getElementById(`comments-${imageId}`);
+        if (el.classList.contains('hidden')) {
+            el.classList.remove('hidden');
+        } else {
+            el.classList.add('hidden');
+        }
+    }
+</script>
 
     </div>
 </div>

@@ -27,7 +27,7 @@ class CommentController extends Controller
 {
     $comment = Comment::findOrFail($id);
     
-    if (auth()->user()->id !== $comment->user_id && !auth()->user()->is_admin) {
+    if (auth()->user()->id !== $comment->user_id && !Auth()->user()->is_admin) {
         abort(403, 'Tidak diizinkan.');
     }
 
@@ -35,5 +35,6 @@ class CommentController extends Controller
 
     return back()->with('success', 'Komentar berhasil dihapus.');
 }
+
 
 }

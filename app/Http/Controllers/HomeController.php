@@ -68,6 +68,7 @@ class HomeController extends Controller
             'is_active' => false,
         ]);
     
+       
         return redirect()->route('home.index')->with('success', 'Gambar berhasil diupload, tunggu persetujuan admin.');
     }
 

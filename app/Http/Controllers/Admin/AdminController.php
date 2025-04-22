@@ -30,6 +30,22 @@ class AdminController extends Controller
     $image->save();
 
     return back()->with('success', 'Gambar berhasil disetujui.');
+    }
+
+    public function reject($id)
+{
+        $image =Image::findOrFail($id);
+        
+        if(auth()->user()->role !== 'admin') {
+            abort(403,'Akses ditolak');
+        }
+        if ($image->is_active == 2) {
+            return back()->with('info', 'Gambar sudah di tolak sebelumnya');
+        }
+        $image->is_active = 2;
+        $image->save();
+        return back()->with('Sucess', 'gambar berhasil di tolak');
 
     }
+
 }
